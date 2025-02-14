@@ -1,0 +1,6 @@
+.navbar .container-fluid img {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    margin-inline: 10px;
+ }
