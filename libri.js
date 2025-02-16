@@ -1,45 +1,84 @@
+//per la funzione cerca 
+let TotLibri = []
 
-function FunzioneLibri(books) {
-    fetch('https://striveschool-api.herokuapp.com/books')
-    .then(response => response.json())
-    .then(books => {
-        FunzioneLibri(books); 
-        return books; 
-    })
-    .catch(error => console.error('Error:', error));
+//per il bottone cerca 
+const Cercare = document.getElementById("Cercare")
 
+//
+const linkAPI = 'https://striveschool-api.herokuapp.com/books'
 
+function FunzioneLibri() {
+        fetch(linkAPI)
+        .then(response => response.json())
+        .then(books => {
+            console.log(books); 
+            //inserisco tutti i libri nell'array 
+            TotLibri = books; 
+            FunzioneLibri(TotLibri); 
+        })
+        .catch(error => console.log(error)); 
+    }  
 
+    //map 
+    function VisCard(books) {
+        let contenitore = document.getElementById("contenitore")
+        contenitore.classList.add("row", "gap-2", "justify-content-center")
+        contenitore.innerHTML=""
 
+        const PaginaLibri = books.map((book) => Libri(book))
 
+        contenitore.append(...PaginaLibri)
+     }
     
-    let contenitore = document.getElementById("contenitore")
-    contenitore.classList.remove("d-none"); 
+    //creazione carte
+    function Libri({img, title, category, price }) {
 
-    books.data.forEach(books => {
-        const card = document.createElement("div")
-        card.classList.add("card", "mb-2", "bg-transparent" , "border-0")
+             const card = document.createElement("div")
+             card.classList.add("card", "col-md-3", "col-6")
 
-        const img = document.createElement("img")
-        img.src = books.
-        img.classList.add("card-img-top")
-        
-        const cardBody = document.createElement("div")
-        cardBody.classList.add("card-body", "px-0")
+             const immagine = document.createElement("img")
+             immagine.classList.add("card-img-top")
+             immagine.src = img; 
+             card.appendChild(immagine); 
 
-        const cardTitle = document.createElement("h4")
-        cardTitle.classList.add("card-body", "px-0")
-        cardTitle.innerText = song.title
+             const body = document.createElement("div")
+             body.classList.add("card-body"); 
+             card.appendChild(body); 
 
-        const cantanti = document.createElement("h6")
-        cantanti.classList.add("card-text", "fw-light", "fs-small")
-        cantanti.innerText = song.artist.name
+             const titolo = document.createElement("h5")
+             titolo.classList.add("card-title")
+             titolo.innerText = title; 
+             body.appendChild(titolo); 
 
-        cardBody.appendChild(cardTitle); 
-        cardBody.appendChild(cantanti); 
+             const genere = document.createElement("p")
+             genere.classList.add("card-text")
+             genere.innerText = "Genere" + category; 
+             body.appendChild(genere); 
 
-        card.appendChild(img); 
-        showcards.appendChild(card)
-});
-}
-FunzioneLibri(); 
+             const prezzo = document.createElement("p")
+             prezzo.classList.add("card-text")
+             prezzo.innerText = "€" + price; 
+             body.appendChild(prezzo);
+
+             
+             const CardCarrello = document.createElement("div")
+             CardCarrello.classList.add("card-body"); 
+             card.appendChild(CardCarrello); 
+
+             const carrello = document.createElement("button")
+             carrello.classList.add("btn", "btn-outline-dark")
+             carrello.innerText = "Aggiungi al carrello"; 
+             CardCarrello.appendChild(carrello); 
+            
+             const bottone = document.createElement("button")
+             bottone.classList.add("btn", "btn-warning")
+             bottone.innerText ="Hide"; 
+             CardCarrello.addEventListener(bottone); 
+
+             return card; 
+        }; 
+
+        FunzioneLibri()
+        .then(books => VisCard(books))
+        .catch(err => console.log(err))
+          
