@@ -14,10 +14,11 @@ function FunzioneLibri() {
             console.log(books); 
             //inserisco tutti i libri nell'array 
             TotLibri = books; 
-            FunzioneLibri(TotLibri); 
+            VisCard(TotLibri); 
         })
-        .catch(error => console.log(error)); 
+        .catch(err => console.log(err)); 
     }  
+    
 
     //map 
     function VisCard(books) {
@@ -75,10 +76,35 @@ function FunzioneLibri() {
              bottone.innerText ="Hide"; 
              CardCarrello.addEventListener(bottone); 
 
+             carrello.addEventListener("click", () =>{
+                cart.push({img, title, category, price})
+                console.log("Libro aggiunto al carrello:", cart)
+                
+                card.style.border = "2px solid red"
+        
+               Aggiorna()
+                })
+
              return card; 
-        }; 
+        } 
+
+        function Aggiorna(){
+            const cartContainer = getElementById("Carrello")
+            cartContainer.innerHTML = ""
+        }
 
         FunzioneLibri()
-        .then(books => VisCard(books))
-        .catch(err => console.log(err))
+        
           
+
+
+        //function RICERCA() {
+           // const elemento = Cercare.value.toLowerCase()
+        
+           // const filter = TotLibri.filter((book) => {
+            //    return book.title.toLowerCase().includes(elemento); 
+        //    })
+         //   VisCard(filter); 
+       // }
+        
+        FunzioneLibri(); 
