@@ -1,110 +1,89 @@
-//per la funzione cerca 
-let TotLibri = []
-
-//per il bottone cerca 
-const Cercare = document.getElementById("Cercare")
-
-//
 const linkAPI = 'https://striveschool-api.herokuapp.com/books'
 
-function FunzioneLibri() {
-        fetch(linkAPI)
-        .then(response => response.json())
-        .then(books => {
-            console.log(books); 
-            //inserisco tutti i libri nell'array 
-            TotLibri = books; 
-            VisCard(TotLibri); 
+const ImputCerca = document.getElementById("ImputCerca")
+let TotaleLibri = []
+
+function dati () {
+    return fetch(linkAPI)
+    .then(Response => Response.json())
+    .then(books => {
+        console.log(books)
+        TotaleLibri = books; 
+        VisLibri(TotaleLibri)
+    })
+    .catch(err => console.log(err)); 
+}
+
+function VisLibri(books) {
+    let risultato = document.getElementById("contenitore")
+    risultato.classList.add("row", "gap-2", "justify-content-center")
+    risultato.innerHTML=""
+
+    const Libreria = books.map((book) => creacard(book))
+    risultato.append(...Libreria); 
+}
+
+function creacard({img, title, category, price}) {
+    const Card = document.createElement("div")
+    Card.classList.add("card", "col-6", "col-md-4", "col-lg-3"); 
+
+    const CardImage = document.createElement("img")
+    CardImage.classList.add("card-img-top")
+    CardImage.src = img
+    Card.appendChild(CardImage); 
+
+    const CardBody = document.createElement("div")
+    CardBody.classList.add("card-body")
+    Card.appendChild(CardBody); 
+
+    const CardTitle = document.createElement("h3")
+    CardTitle.classList.add("card-title",)
+    CardTitle.innerText = title
+    CardBody.appendChild(CardTitle); 
+
+    const CardGenre = document.createElement("p")
+    CardGenre.classList.add("card-text")
+    CardGenre.innerText = "Genre: " + category
+    Card.appendChild(CardGenre); 
+
+    const CardPrice = document.createElement("h5")
+    CardPrice.classList.add("card-text")
+    CardPrice.innerText = "€ " + price
+    Card.appendChild(CardPrice); 
+
+    const CardBottone = document.createElement("div")
+    CardBottone.classList.add("card-body")
+    Card.appendChild(CardBottone); 
+
+    const Carrello = document.createElement("button")
+    Carrello.classList.add("btn", "btn-success")
+    Carrello.innerText = "Aggiungi al carrello"
+    CardBottone.appendChild(Carrello)
+   
+    const CardHide = document.createElement("button")
+    CardHide.classList.add("btn", "btn-warning")
+    CardHide.innerText = "Hide"
+    CardBottone.appendChild(CardHide); 
+
+    Carrello.addEventListener("click", () =>{
+        cart.push({img, title, category, price})
+        console.log("Libro aggiunto al carrello:", cart)
+        
+        Card.style.border = "2px solid red"
+
+        CarrelloUp()
         })
-        .catch(err => console.log(err)); 
-    }  
-    
 
-    //map 
-    function VisCard(books) {
-        let contenitore = document.getElementById("contenitore")
-        contenitore.classList.add("row", "gap-2", "justify-content-center")
-        contenitore.innerHTML=""
+    return Card; 
+}
 
-        const PaginaLibri = books.map((book) => Libri(book))
+function CarrelloUp(){
+    const cartContainer = getElementById("Carrello")
+    cartContainer.innerHTML = ""
 
-        contenitore.append(...PaginaLibri)
-     }
-    
-    //creazione carte
-    function Libri({img, title, category, price }) {
-
-             const card = document.createElement("div")
-             card.classList.add("card", "col-md-3", "col-6")
-
-             const immagine = document.createElement("img")
-             immagine.classList.add("card-img-top")
-             immagine.src = img; 
-             card.appendChild(immagine); 
-
-             const body = document.createElement("div")
-             body.classList.add("card-body"); 
-             card.appendChild(body); 
-
-             const titolo = document.createElement("h5")
-             titolo.classList.add("card-title")
-             titolo.innerText = title; 
-             body.appendChild(titolo); 
-
-             const genere = document.createElement("p")
-             genere.classList.add("card-text")
-             genere.innerText = "Genere" + category; 
-             body.appendChild(genere); 
-
-             const prezzo = document.createElement("p")
-             prezzo.classList.add("card-text")
-             prezzo.innerText = "€" + price; 
-             body.appendChild(prezzo);
-
-             
-             const CardCarrello = document.createElement("div")
-             CardCarrello.classList.add("card-body"); 
-             card.appendChild(CardCarrello); 
-
-             const carrello = document.createElement("button")
-             carrello.classList.add("btn", "btn-outline-dark")
-             carrello.innerText = "Aggiungi al carrello"; 
-             CardCarrello.appendChild(carrello); 
-            
-             const bottone = document.createElement("button")
-             bottone.classList.add("btn", "btn-warning")
-             bottone.innerText ="Hide"; 
-             CardCarrello.addEventListener(bottone); 
-
-             carrello.addEventListener("click", () =>{
-                cart.push({img, title, category, price})
-                console.log("Libro aggiunto al carrello:", cart)
-                
-                card.style.border = "2px solid red"
-        
-               Aggiorna()
-                })
-
-             return card; 
-        } 
-
-        function Aggiorna(){
-            const cartContainer = getElementById("Carrello")
-            cartContainer.innerHTML = ""
-        }
-
-        FunzioneLibri()
-        
-          
+   
+}
 
 
-        //function RICERCA() {
-           // const elemento = Cercare.value.toLowerCase()
-        
-           // const filter = TotLibri.filter((book) => {
-            //    return book.title.toLowerCase().includes(elemento); 
-        //    })
-         //   VisCard(filter); 
-       // }
-        
-        FunzioneLibri(); 
+
+
