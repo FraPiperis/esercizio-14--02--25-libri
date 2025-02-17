@@ -87,5 +87,16 @@ function CarrelloUp(){
 dati(); 
 
 
+function searchBook() {
+    const Valore = ImputCerca.value.toLowerCase()
+
+    const Filtra = TotaleLibri.filter((book) => {
+        return book.title.toLowerCase().includes(Valore)
+    })
+    VisLibri(Filtra)
+}
+
+dati(); 
+
 
 
