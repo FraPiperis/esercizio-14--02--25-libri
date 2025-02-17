@@ -84,6 +84,8 @@ function CarrelloUp(){
    
 }
 
+dati(); 
+
 
 
 
